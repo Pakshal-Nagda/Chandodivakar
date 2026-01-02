@@ -79,18 +79,16 @@ function levenshteinDistance(a, b) {
     return dp[a.length][b.length];
 }
 
-function getColorFromDistance(d, max) {
-    if (d === 0) return '#00a000';
-    const ratio = Math.min(d / Math.max(max, 1), 1);
-    return `rgb(${Math.round(256 * ratio)},0,0)`;
-}
-
-function computeFill(d, targetPattern, inputText) {
+function computeFill(d, targetPattern=null) {
     if (!d.data.name) return '#ffff00';
     const pattern = getPath(d);
-    if (inputText && targetPattern) {
+    if (targetPattern) {
         const dist = levenshteinDistance(pattern, targetPattern);
-        return getColorFromDistance(dist, Math.max(pattern.length, targetPattern.length));
+        if (dist === 0) return '#00a000';
+
+        max = Math.max(pattern.length, targetPattern.length);
+        const ratio = Math.min(dist / Math.max(max, 1), 1);
+        return `rgb(${Math.round(256 * ratio)},0,0)`;
     }
     return '#ff0000';
 }
@@ -203,19 +201,19 @@ function updateVisualization(root) {
         d.y1 = scaleY(d.depth + 1);
     });
 
-    const cells = g.selectAll('path').data(visibleNodes, d => d.data.key);
+    const cells = g.selectAll('path').data(visibleNodes, d => getPath(d));
     cells.join(
         enter => enter.append('path')
             .attr('class', 'node')
             .attr('d', arc)
-            .style('fill', d => computeFill(d, targetPattern, inputText))
+            .style('fill', d => computeFill(d, targetPattern))
             .on('click', handleNodeClick)
             .on('mouseover', showTooltip)
             .on('mouseout', hideTooltip)
             .call(enter => enter.transition().duration(0).attr('d', arc)),
         update => update.transition().duration(0)
             .attr('d', arc)
-            .style('fill', d => computeFill(d, targetPattern, inputText)),
+            .style('fill', d => computeFill(d, targetPattern)),
         exit => exit.remove()
     );
 }
@@ -303,7 +301,7 @@ function handleTextInput() {
     const targetPattern = text2GL(inputText, type, script);
 
     g.selectAll('path').transition().duration(300)
-        .style('fill', d => computeFill(d, targetPattern, inputText));
+        .style('fill', d => computeFill(d, targetPattern));
 
     highlightBestNode(targetPattern, inputText);    
 }    
