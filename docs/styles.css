@@ -99,6 +99,7 @@ body {
 .control-group .top {
     display: flex;
     gap: 12px;
+    align-items: center;
 }
 
 .control-group .control {
