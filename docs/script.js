@@ -14,6 +14,7 @@ async function init() {
     document.getElementById('scriptDropdown').addEventListener('change', handleTextInput);
     document.getElementById('inputTypeDropdown').addEventListener('change', handleTextInput);
     document.getElementById('maxLength').addEventListener('input', handleMaxLengthChange);
+    document.getElementById('maxLengthValue').innerText = document.getElementById('maxLength').value;
 }
 
 function setupSVG() {
@@ -159,7 +160,7 @@ function renderSunburst(data) {
     currentRoot = root;
     partition(root);
 
-    const maxLength = +document.getElementById('maxLength').value;
+    const maxLength = document.getElementById('maxLength').value;
     const visibleNodes = root.descendants().filter(d => d.depth <= maxLength);
 
     const maxVisibleDepth = d3.max(visibleNodes, d => d.depth);
@@ -290,6 +291,7 @@ function hideTooltip() { d3.selectAll('.tooltip').remove(); }
 
 // ---------- Input Reaction ----------
 function handleMaxLengthChange() {
+    document.getElementById('maxLengthValue').innerText = document.getElementById('maxLength').value;
     if (currentRoot) updateVisualization(currentRoot);
 }
 
