@@ -192,3 +192,69 @@ body {
         gap: 8px;
     }
 }
+
+/* Help button */
+.help-container {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 1000;
+}
+
+.help-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: #555;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.help-btn:hover {
+    background: #777;
+}
+
+/* Modal background */
+.help-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;           /* hidden initially */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* Modal content box */
+.help-content {
+    background: #fff;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    max-height: 160vh;         /* scrollable if too long */
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+/* Close button */
+.help-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 1.2em;
+    cursor: pointer;
+}

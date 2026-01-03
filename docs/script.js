@@ -15,6 +15,11 @@ async function init() {
     document.getElementById('inputTypeDropdown').addEventListener('change', handleTextInput);
     document.getElementById('maxLength').addEventListener('input', handleMaxLengthChange);
     document.getElementById('maxLengthValue').innerText = document.getElementById('maxLength').value;
+
+    const helpModal = document.querySelector('.help-modal')
+    document.querySelector('.help-btn').addEventListener('click', () => {helpModal.style.display = 'flex';});
+    document.querySelector('.help-close').addEventListener('click', () => {helpModal.style.display = 'none';});
+    helpModal.addEventListener('click', (e) => {if (e.target === helpModal) helpModal.style.display = 'none';});
 }
 
 function setupSVG() {

@@ -15,6 +15,42 @@
             <h1 class="title">छन्दोदिवाकरः</h1>
         </div>
 
+        <div class="help-container">
+            <button class="help-btn" aria-label="About this page">?</button>
+        </div>
+
+        <div class="help-modal">
+            <div class="help-content">
+                <button class="help-close" aria-label="Close">&times;</button>
+                <h3>About Chandodivākara</h3>
+                <p>
+                    Chandodivākara is an interactive visualization of over 400 Sanskrit metres (<em>chandas</em>) using a semicircular sunburst chart.  
+                    Each concentric layer represents longer patterns of syllables, built incrementally from the center outward.
+                </p>
+
+                <p>
+                    Each node shows a pattern of <strong>G</strong> (<em>guru</em> or long vowels) and <strong>L</strong> (<em>laghu</em> or short vowels).  
+                    Named metres appear in <span style="color:red;">red</span>, while unnamed patterns are in <span style="color:orange;">yellow</span>.  
+                    Patterns closer to the center are shorter; nodes farther out represent longer sequences.
+                </p>
+
+                <ul>
+                    <li><strong>Hover</strong> over a node to see its name, length (<em>jāti</em>), pattern, and <em>yati</em>.</li>
+                    <li><strong>Click</strong> a node to expand all patterns starting with that sequence, exploring the subtree visually.</li>
+                    <li>
+                        Use the input box to find metres matching your text.  
+                        An exact match is highlighted in <span style="color:green;">green</span>; other patterns are shaded from <span style="color:red;">red</span> (least similar) to <span style="color:black;">black</span> (most similar).
+                    </li>
+                    <li>Input can be typed in <strong>Devanāgarī</strong>, <strong>IAST</strong>, or as a string of <strong>G</strong>s and <strong>L</strong>s.</li>
+                    <li>Use the slider to adjust the maximum length of metres to focus your analysis.</li>
+                </ul>
+
+                <p>
+                    Explore the chart to see relationships between metres, discover patterns, and understand the structure of Sanskrit poetic metres visually.
+                </p>
+            </div>
+        </div>
+
         <div id="sunburst"></div>
 
         <div class="input-container">
