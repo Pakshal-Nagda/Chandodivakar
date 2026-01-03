@@ -20,9 +20,8 @@ function setupSVG() {
     const container = document.getElementById('sunburst');
     const width = container.offsetWidth;
     const height = container.offsetHeight;
-    const basePadding = 0;
 
-    radius = Math.min(width / 2, height - basePadding - 20);
+    radius = Math.min(width / 2, height);
     d3.select(container).selectAll('svg').remove();
 
     svg = d3.select(container).append('svg')
@@ -30,7 +29,7 @@ function setupSVG() {
         .attr('height', height);
 
     g = svg.append('g')
-        .attr('transform', `translate(${width / 2}, ${height - basePadding})`);
+        .attr('transform', `translate(${width / 2}, ${height})`);
 
     partition = d3.partition().size([Math.PI, radius]);
     arc = d3.arc()
@@ -160,12 +159,12 @@ function renderSunburst(data) {
     currentRoot = root;
     partition(root);
 
-    const maxLength = +document.getElementById('maxLength').value || 26;
+    const maxLength = +document.getElementById('maxLength').value;
     const visibleNodes = root.descendants().filter(d => d.depth <= maxLength);
 
     const maxVisibleDepth = d3.max(visibleNodes, d => d.depth);
     const scaleY = d3.scaleLinear()
-        .domain([0, maxVisibleDepth])
+        .domain([0, maxVisibleDepth + 1])
         .range([0, radius]);
     visibleNodes.forEach(d => {
         d.y0 = scaleY(d.depth);
@@ -189,12 +188,12 @@ function updateVisualization(root) {
     const script = document.getElementById('scriptDropdown').value;
     const targetPattern = text2GL(inputText, type, script);
 
-    const maxLength = document.getElementById('maxLength').value || 26;
+    const maxLength = document.getElementById('maxLength').value;
     const visibleNodes = root.descendants().filter(d => d.depth <= maxLength);
 
     const maxVisibleDepth = d3.max(visibleNodes, d => d.depth);
     const scaleY = d3.scaleLinear()
-        .domain([0, maxVisibleDepth])
+        .domain([0, maxVisibleDepth + 1])
         .range([0, radius]);
     visibleNodes.forEach(d => {
         d.y0 = scaleY(d.depth);

@@ -1,6 +1,5 @@
 Visualization:
 - Handle root labeling. It is showing sheshajati now that is incorrect.
-- Handle radius overflow while changing maxLength
 - Transition when clicking on a node
 - Explore other coloring schemes like quadratic with ratio, exponential etc. Change how ratio is defined maybe.
 - Add different scripts handling like HK, SLP etc.
