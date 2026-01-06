@@ -86,14 +86,13 @@ function levenshteinDistance(a, b) {
 
 function computeFill(d, targetPattern=null) {
     if (!d.data.name) return '#ffff00';
-    const pattern = getPath(d);
     if (targetPattern) {
+        const pattern = getPath(d);
         const dist = levenshteinDistance(pattern, targetPattern);
         if (dist === 0) return '#00a000';
 
-        max = Math.max(pattern.length, targetPattern.length);
-        const ratio = Math.min(dist / Math.max(max, 1), 1);
-        return `rgb(${Math.round(256 * ratio)},0,0)`;
+        const max = Math.max(pattern.length, targetPattern.length);
+        return `rgb(${Math.round(255 * dist / max)},0,0)`;
     }
     return '#ff0000';
 }
@@ -120,6 +119,8 @@ function text2GL(text, type, script) {
         let m, GL = '';
         while ((m = syllableRe.exec(text)) !== null)
             GL += isGRe.test(m[1]) ? 'G' : 'L';
+        
+        if (GL) GL = GL.slice(0, -1) + 'G'; // This needs to be improved as the rule is not applicable for some metres
         return GL;
     }
 
@@ -152,6 +153,7 @@ function text2GL(text, type, script) {
             }
         }
 
+        if (GL) GL = GL.slice(0, -1) + 'G'; // This needs to be improved as the rule is not applicable for some metres
         return GL;
     }
 

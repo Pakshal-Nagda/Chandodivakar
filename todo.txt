@@ -12,6 +12,7 @@ Chandas:
 - Confirm if 2nd yati shifts in variants of piplika (karabha etc.) as new letters are added
 - Confirm if utkalika is non-sama meter
 - Extract non-sama meters
+- Handle metres where last vowel is not treated as G
 
 Misc:
 - Make readme
