@@ -130,7 +130,7 @@ function text2GL(text, type, script) {
         const V = '([kgcjṭḍtdpb]h|[kgṅcjñṭḍṇtdnpbmyrlvśṣshṁḥ])';
 
         const G = new RegExp('^' + V + '*(a[iu]|[āīūṝḹeo]|' + S + '(?=\\s*' + V + '(?!' + S + ')))');
-        const L = new RegExp('^' + V + '*[aiuṛḷ](?=' + V + S + '|\\s|$)');
+        const L = new RegExp('^' + V + '*[aiuṛḷ](?=\\s*(?=' + V + S + ')|$)');
 
         let GL = '';
         let pos = 0;
