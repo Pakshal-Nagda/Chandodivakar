@@ -1,10 +1,10 @@
 Visualization:
 - Handle root labeling. It is showing sheshajati now that is incorrect.
-- Transition when clicking on a node
 - Explore other coloring schemes like quadratic with ratio, exponential etc. Change how ratio is defined maybe.
 - Add different scripts handling like HK, SLP etc.
 - Responsive design
 - Show the exact GL pattern that a user enters
+- Silent SVG errors in console on clicking a node
 
 Chandas:
 - Confirm if vidyunmala has yati at 4

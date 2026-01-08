@@ -190,7 +190,7 @@ function renderSunburst(data) {
         .on('mouseout', hideTooltip);
 }
 
-function updateVisualization(root) {
+function updateVisualization(root, animate=false, mid=Math.PI/2) {
     const inputText = document.getElementById('textInput').value;
     const type = document.getElementById('inputTypeDropdown').value;
     const script = document.getElementById('scriptDropdown').value;
@@ -210,31 +210,69 @@ function updateVisualization(root) {
     });
 
     const cells = g.selectAll('path').data(visibleNodes, d => getPath(d));
-    cells.join(
+    if (animate) {
+        function dir(d) {
+            if (d.x0 < mid) return 0
+            else return Math.PI
+        }
+        cells.join(
         enter => enter.append('path')
             .attr('class', 'node')
-            .attr('d', arc)
+            .attr('d', d => arc({...d, x0: dir(d), x1: dir(d)}))
             .style('fill', d => computeFill(d, targetPattern))
             .on('click', handleNodeClick)
             .on('mouseover', showTooltip)
             .on('mouseout', hideTooltip)
-            .call(enter => enter.transition().duration(0).attr('d', arc)),
-        update => update.transition().duration(0)
-            .attr('d', arc)
-            .style('fill', d => computeFill(d, targetPattern)),
-        exit => exit.remove()
-    );
+            .transition().duration(1000)
+            .attrTween('d', d => {
+                const i0 = d3.interpolate(dir(d), d.x0);
+                const i1 = d3.interpolate(dir(d), d.x1);
+                return t => arc({...d, x0: i0(t), x1: i1(t)});
+            }),
+        update => update.transition().duration(1000)
+            .attr('d', arc),
+        exit => exit
+            .transition().duration(1000)
+            .attrTween('d', d => {
+                const i0 = d3.interpolate(d.x0, dir(d));
+                const i1 = d3.interpolate(d.x1, dir(d));
+                return t => arc({...d, x0: i0(t), x1: i1(t)});
+            })
+            .remove()
+        );
+    } else {
+        cells.join(
+            enter => enter.append('path')
+                .attr('class', 'node')
+                .attr('d', arc)
+                .style('fill', d => computeFill(d, targetPattern))
+                .on('click', handleNodeClick)
+                .on('mouseover', showTooltip)
+                .on('mouseout', hideTooltip),
+            update => update.attr('d', arc),
+            exit => exit.remove()
+        );
+    }
 }
 
 function handleNodeClick(event, d) {
     event.stopPropagation();
-    const root = (d === currentRoot && originalRoot)
-        ? getHierarchy(originalRoot)
-        : (d.children ? d : currentRoot);
+    let root, mid;
 
-    currentRoot = root;
-    partition(root);
-    updateVisualization(root);
+    if (d === currentRoot && originalRoot) {
+        root = getHierarchy(originalRoot);
+        const path = getPath(d);
+        currentRoot = root;
+        partition(root);
+        mid = root.descendants().find(n => getPath(n) === path).x0;
+    } else if (d.children) {
+        root = d;
+        mid = d.x0;
+        currentRoot = root;
+        partition(root)
+    }
+
+    updateVisualization(root || currentRoot, true, mid);
 }
 
 // ---------- Tooltip ----------
