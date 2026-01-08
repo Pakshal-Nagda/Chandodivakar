@@ -280,6 +280,7 @@ const JATI = ['उक्ता', 'अत्युक्ता', 'मध्या
 
 function showTooltip(event, d) {
     let pattern = getPath(d);
+    if (!pattern) return
     const name = d.data.name ? `छन्दः - ${d.data.name}<br>` : '';
     let jati = JATI[pattern.length - 1] || JATI[JATI.length - 1];
     if (d.data.name && d.data.name.endsWith('दण्डक')) {

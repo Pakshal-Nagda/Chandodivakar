@@ -1,5 +1,4 @@
 Visualization:
-- Handle root labeling. It is showing sheshajati now that is incorrect.
 - Explore other coloring schemes like quadratic with ratio, exponential etc. Change how ratio is defined maybe.
 - Add different scripts handling like HK, SLP etc.
 - Responsive design
