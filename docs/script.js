@@ -35,12 +35,12 @@ function setupSVG() {
         .attr('height', height);
 
     g = svg.append('g')
-        .attr('transform', `translate(${width / 2}, ${height})`);
+        .attr('transform', `translate(${width / 2}, ${height}) rotate(-90)`);
 
     partition = d3.partition().size([Math.PI, radius]);
     arc = d3.arc()
-        .startAngle(d => d.x0 - Math.PI / 2)
-        .endAngle(d => d.x1 - Math.PI / 2)
+        .startAngle(d => d.x0)
+        .endAngle(d => d.x1)
         .innerRadius(d => d.y0)
         .outerRadius(d => d.y1);
 }
@@ -167,7 +167,7 @@ function renderSunburst(data) {
     currentRoot = root;
     partition(root);
 
-    const maxLength = document.getElementById('maxLength').value;
+    const maxLength = +document.getElementById('maxLength').value;
     const visibleNodes = root.descendants().filter(d => d.depth <= maxLength);
 
     const maxVisibleDepth = d3.max(visibleNodes, d => d.depth);
@@ -196,12 +196,13 @@ function updateVisualization(root) {
     const script = document.getElementById('scriptDropdown').value;
     const targetPattern = text2GL(inputText, type, script);
 
-    const maxLength = document.getElementById('maxLength').value;
+    const maxLength = +document.getElementById('maxLength').value;
     const visibleNodes = root.descendants().filter(d => d.depth <= maxLength);
 
     const maxVisibleDepth = d3.max(visibleNodes, d => d.depth);
+    const minVisibleDepth = d3.min(visibleNodes, d => d.depth);
     const scaleY = d3.scaleLinear()
-        .domain([0, maxVisibleDepth + 1])
+        .domain([minVisibleDepth, maxVisibleDepth + 1])
         .range([0, radius]);
     visibleNodes.forEach(d => {
         d.y0 = scaleY(d.depth);
